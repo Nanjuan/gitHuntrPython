@@ -1,3 +1,5 @@
+![gitHuntr](banner.png)
+
 # gitHuntr
 
 Multi-platform GitHub search.
