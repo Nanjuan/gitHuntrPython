@@ -122,5 +122,7 @@ GitHuntr uses your local Git credentials to access repositories. Make sure you h
 Apache 2.0
 
 ## Author
+
 Original Pascal version by Marcus Fernström
+
 Python version by Nestor Torres
