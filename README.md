@@ -38,7 +38,7 @@ conda activate githuntr
 ## Usage
 
 ```bash
-python githuntr.py [-h] [-f REGEX] [-c REGEX] [-o FILE] -r REPO_URL [-e] [-H] [-m MAX]
+python githuntr.py [-h] [-f REGEX] [-c REGEX] [-o FILE] -r REPO_URL [-e] [-H] [-mc MAX]
 
 Required Arguments:
   -r, --repo-url        URL for repo to scan
@@ -48,7 +48,7 @@ Search Options:
   -c, --content-regex   Regex to match file content
   -e, --entropy        Perform Entropy search (slow)
   -H, --history        Search through commit history
-  -m, --max-commits    Maximum number of commits to search through
+  -mc, --max-commits   Maximum number of commits to search through
 
 Output Options:
   -o, --output-file    File to write report json to
@@ -65,14 +65,14 @@ python githuntr.py -f ".*token.*" -r git@github.com:username/repo.git
 python githuntr.py -c ".*password.*" -H -r git@github.com:username/repo.git
 
 # Limit history search to last 100 commits (short form)
-python githuntr.py -c ".*api_key.*" -H -m 100 -r git@github.com:username/repo.git
+python githuntr.py -c ".*api_key.*" -H -mc 100 -r git@github.com:username/repo.git
 
 # Full scan with all features (short form)
-python githuntr.py -f ".*config.*" -c ".*password.*" -e -H -o report.json -r git@github.com:username/repo.git
+python githuntr.py -f ".*config.*" -c ".*password.*" -e -H -mc 100 -o report.json -r git@github.com:username/repo.git
 
 # Same command with long form options
 python githuntr.py --filename-regex ".*config.*" --content-regex ".*password.*" \
-                  --entropy --history --output-file report.json --repo-url git@github.com:username/repo.git
+                  --entropy --history --max-commits 100 --output-file report.json --repo-url git@github.com:username/repo.git
 ```
 
 ### Regex Pattern Tips

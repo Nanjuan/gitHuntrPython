@@ -393,7 +393,7 @@ Examples:
                        help='Perform Entropy search (slow)')
     parser.add_argument('-H', '--history', action='store_true',
                        help='Search through commit history')
-    parser.add_argument('-m', '--max-commits', type=int,
+    parser.add_argument('-mc', '--max-commits', type=int,
                        help='Maximum number of commits to search through')
     
     args = parser.parse_args()
