@@ -38,45 +38,41 @@ conda activate githuntr
 ## Usage
 
 ```bash
-python githuntr.py [-h] [-f FILENAME_REGEX] [-c CONTENT_REGEX] [-o OUTPUT_FILE] [-r REPO_URL] [-e]
+python githuntr.py [-h] [-f REGEX] [-c REGEX] [-o FILE] -r REPO_URL [-e] [-H] [-m MAX]
 
-options:
-  -h, --help            Show this help message and exit
-  -f FILENAME_REGEX     Regex to match filenames
-  -c CONTENT_REGEX     Regex to match file content
-  -o OUTPUT_FILE        File to write report json to
-  -r REPO_URL          URL for repo to scan
-  -e                    Perform Entropy search (slow)
-  --history            Search through commit history
-  --max-commits MAX    Maximum number of commits to search through
+Required Arguments:
+  -r, --repo-url        URL for repo to scan
+
+Search Options:
+  -f, --filename-regex  Regex to match filenames
+  -c, --content-regex   Regex to match file content
+  -e, --entropy        Perform Entropy search (slow)
+  -H, --history        Search through commit history
+  -m, --max-commits    Maximum number of commits to search through
+
+Output Options:
+  -o, --output-file    File to write report json to
+  -h, --help          Show this help message and exit
 ```
 
-## Example
+## Examples
 
 ```bash
-# Search for files containing 'token' anywhere in name
+# Basic search in current state (short form)
 python githuntr.py -f ".*token.*" -r git@github.com:username/repo.git
 
-# Search for files ending in .txt
-python githuntr.py -f ".*\.txt$" -r git@github.com:username/repo.git
+# Search in commit history for passwords (short form)
+python githuntr.py -c ".*password.*" -H -r git@github.com:username/repo.git
 
-# Search for content containing 'api_key'
-python githuntr.py -c ".*api_key.*" -r git@github.com:username/repo.git
+# Limit history search to last 100 commits (short form)
+python githuntr.py -c ".*api_key.*" -H -m 100 -r git@github.com:username/repo.git
 
-# Search for exact matches of 'SECRET_TOKEN'
-python githuntr.py -c "^SECRET_TOKEN$" -r git@github.com:username/repo.git
+# Full scan with all features (short form)
+python githuntr.py -f ".*config.*" -c ".*password.*" -e -H -o report.json -r git@github.com:username/repo.git
 
-# Combine filename and content search with entropy scan
-python githuntr.py -f ".*config.*" -c ".*password.*" -e -o report.json -r git@github.com:username/repo.git
-
-# Search in commit history for passwords
-python githuntr.py -c ".*password.*" --history -r git@github.com:username/repo.git
-
-# Limit history search to last 100 commits
-python githuntr.py -c ".*api_key.*" --history --max-commits 100 -r git@github.com:username/repo.git
-
-# Full scan: files, content, entropy, and history
-python githuntr.py -f ".*config.*" -c ".*password.*" -e --history -o report.json -r git@github.com:username/repo.git
+# Same command with long form options
+python githuntr.py --filename-regex ".*config.*" --content-regex ".*password.*" \
+                  --entropy --history --output-file report.json --repo-url git@github.com:username/repo.git
 ```
 
 ### Regex Pattern Tips

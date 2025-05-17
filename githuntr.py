@@ -363,23 +363,37 @@ Examples:
   python githuntr.py -c "^SECRET_TOKEN$" -r REPO_URL
 
   # Search through commit history
-  python githuntr.py -c ".*password.*" --history -r REPO_URL
+  python githuntr.py -c ".*password.*" -H -r REPO_URL
 
-  # Limit commit history search
-  python githuntr.py -c ".*api_key.*" --history --max-commits 100 -r REPO_URL
+  # Limit commit history search (last 100 commits)
+  python githuntr.py -c ".*api_key.*" -H -m 100 -r REPO_URL
 
-  # Combine all features
-  python githuntr.py -f ".*config.*" -c ".*password.*" -e --history -r REPO_URL
+  # Combine all features (short form)
+  python githuntr.py -f ".*config.*" -c ".*password.*" -e -H -r REPO_URL
+
+  # Combine all features (long form)
+  python githuntr.py --filename-regex ".*config.*" --content-regex ".*password.*" --entropy --history -r REPO_URL
 """)
-    parser.add_argument('-f', '--filename-regex', help='Regex to match filenames')
-    parser.add_argument('-c', '--content-regex', help='Regex to match file content')
-    parser.add_argument('-o', '--output-file', help='File to write report json to')
-    parser.add_argument('-r', '--repo-url', required=True, help='URL for repo to scan')
-    parser.add_argument('-e', '--entropy', action='store_true', 
+    # Required arguments
+    parser.add_argument('-r', '--repo-url', required=True,
+                       help='URL for repo to scan')
+
+    # Search patterns
+    parser.add_argument('-f', '--filename-regex',
+                       help='Regex to match filenames')
+    parser.add_argument('-c', '--content-regex',
+                       help='Regex to match file content')
+
+    # Output options
+    parser.add_argument('-o', '--output-file',
+                       help='File to write report json to')
+
+    # Search options
+    parser.add_argument('-e', '--entropy', action='store_true',
                        help='Perform Entropy search (slow)')
-    parser.add_argument('--history', action='store_true',
+    parser.add_argument('-H', '--history', action='store_true',
                        help='Search through commit history')
-    parser.add_argument('--max-commits', type=int,
+    parser.add_argument('-m', '--max-commits', type=int,
                        help='Maximum number of commits to search through')
     
     args = parser.parse_args()
